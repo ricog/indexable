@@ -151,6 +151,9 @@ class IndexableBehavior extends ModelBehavior {
 	function _indexifyField(&$Model, $string) {
 		$rules = $this->settings[$Model->alias]['rules'];
 
+		// Convert string to lowercase
+		$string = strtolower($string);
+
 		// Process preliminary replacements
 		$string = $this->__processReplacements($rules['replace_before'], $string);
 
