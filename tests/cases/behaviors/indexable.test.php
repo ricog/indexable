@@ -45,6 +45,11 @@ class ArticleCustom extends CakeTestModel {
 						'replacement' => '$1 $2',
 						'order' => 150,
 					),
+					'custom rule' => array(
+						'pattern' => '    ',
+						'replacement' => 'MANY SPACES',
+						'order' => 175,
+					),
 				),
 			),
 		),
@@ -156,6 +161,11 @@ class IndexableTestCase extends CakeTestCase {
 				'replacement' => '$1 $2',
 				'order' => 150,
 			),
+			'custom rule' => array(
+				'pattern' => '    ',
+				'replacement' => 'MANY SPACES',
+				'order' => 175,
+			),
 		);
 		$this->assertEqual($expected, $result);
 
@@ -172,6 +182,11 @@ class IndexableTestCase extends CakeTestCase {
         // Test a word with hyphen and a space at beginning
         $result = $this->ArticleCustom->testIndexifyField(' -space-and-hyphen');
         $expected = array('-space and hyphen');
+        $this->assertEqual($expected, $result);
+
+		// Test a custom rule that should only work if rule sorting is working
+        $result = $this->ArticleCustom->testIndexifyField('x    x');
+        $expected = array('xMANY SPACESx');
         $this->assertEqual($expected, $result);
 	}
 
