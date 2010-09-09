@@ -118,7 +118,7 @@ class IndexableTestCase extends CakeTestCase {
 				),
 				'replace_after' => array(
 					'all others' => array(
-						'pattern' => '[^\w]',
+						'pattern' => '[^\w ]',
 						'replacement' => ' ',
 						'order' => 100,
 					),
