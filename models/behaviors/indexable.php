@@ -9,7 +9,7 @@ class IndexableBehavior extends ModelBehavior {
 
 /**
  * Default settings for this behavior
- *
+ * 
  * @var array
  * @access protected
  */
@@ -20,24 +20,29 @@ class IndexableBehavior extends ModelBehavior {
 				'apostrophe' => array(
 					'pattern' => "\'",
 					'replacement' => '',
+					'order' => 100,
 				),
 				'html' => array(
 					'pattern' => "<.*?>",
 					'replacement' => '',
+					'order' => 200,
 				),
 				'parenthesis' => array(
 					'pattern' => "\(.*?\)",
 					'replacement' => '',
+					'order' => 300,
 				),
 			),
 			'replace_after' => array(
 				'all others' => array(
 					'pattern' => '[^\w ]',
 					'replacement' => ' ',
+					'order' => 100,
 				),
 				'compress space' => array(
 					'pattern' => ' +',
 					'replacement' => ' ',
+					'order' => 200,
 				),
 			),
 			'trim' => true,
@@ -177,6 +182,7 @@ class IndexableBehavior extends ModelBehavior {
 
 	function __processReplacements($rules, $string) {
 		if (!empty($rules)) {
+			$rules = Set::sort($rules, '{[\w ]+}.order', 'asc');
 			foreach ($rules as $ruleKey => $rule) {
 				$string = preg_replace('/' . $rule['pattern'] . '/', $rule['replacement'], $string);
 			} unset($ruleKey); unset($rule);
