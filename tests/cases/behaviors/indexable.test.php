@@ -36,7 +36,7 @@ class ArticleCustom extends CakeTestModel {
 			'rules' => array(
 				'replace_after' => array(
 					'all others' => array(
-						'pattern' => '[^\w\-]',
+						'pattern' => '[^\w\- ]',
 						'replacement' => ' ',
 						'order' => 100,
 					),
@@ -147,7 +147,7 @@ class IndexableTestCase extends CakeTestCase {
 		$result = $result['ArticleCustom']['rules']['replace_after'];
 		$expected = array(
 			'all others' => array(
-				'pattern' => '[^\w\-]',
+				'pattern' => '[^\w\- ]',
 				'replacement' => ' ',
 				'order' => 100,
 			),
