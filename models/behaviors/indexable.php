@@ -122,8 +122,12 @@ class IndexableBehavior extends ModelBehavior {
 		$fields = $this->settings[$Model->alias]['fields'];
 
 		if (empty($data['id'])) {
-			//TODO
-			echo 'Record id not found, cannot create an index record'; exit;
+			if (!empty($Model->id)) {
+				$data['id'] = $Model->id;
+			} else {
+				//TODO
+				echo 'Record id not found, cannot create an index record'; exit;
+			}
 		}
 		// Remove any previous indexing for this record
 		$IndexModel->contain();
