@@ -141,14 +141,16 @@ class IndexableBehavior extends ModelBehavior {
 
 		if (!empty($records)) {
 			foreach ($records as $record) {
-				$index = array(
-					$IndexModel->alias => array(
-						'model_id' => $data['id'],
-						'data' => $record,
-					),
-				);
-				$IndexModel->create();
-				$IndexModel->save($index);
+				if (!empty($record)) {
+					$index = array(
+						$IndexModel->alias => array(
+							'model_id' => $data['id'],
+							'data' => $record,
+						),
+					);
+					$IndexModel->create();
+					$IndexModel->save($index);
+				}
 			}
 		}
 	}
