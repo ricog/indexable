@@ -141,11 +141,12 @@ class IndexableBehavior extends ModelBehavior {
 
 		if (!empty($records)) {
 			foreach ($records as $record) {
-				if (!empty($record)) {
+				if (!empty($record['data'])) {
 					$index = array(
 						$IndexModel->alias => array(
 							'model_id' => $data['id'],
-							'data' => $record,
+							'data' => $record['data'],
+							'pretty' => $record['pretty'],
 						),
 					);
 					$IndexModel->create();
@@ -162,9 +163,6 @@ class IndexableBehavior extends ModelBehavior {
 	function _indexifyField(&$Model, $string) {
 		$rules = $this->settings[$Model->alias]['rules'];
 
-		// Convert string to lowercase
-		$string = strtolower($string);
-
 		// Process preliminary replacements
 		$string = $this->__processReplacements($rules['replace_before'], $string);
 
@@ -177,10 +175,19 @@ class IndexableBehavior extends ModelBehavior {
 
 		// Process remaining replacements and trim strings
 		foreach ($strings as $key => $value) {
-			$strings[$key] = $this->__processReplacements($rules['replace_after'], $value);
+
+			$strings[$key]  = array(
+				'data' => $this->__processReplacements($rules['replace_after'], $value),
+				'pretty' => $value,
+			);
 			if (!empty($rules['trim'])) {
-				$strings[$key] = trim($strings[$key]);
+				$strings[$key]['data'] = trim($strings[$key]['data']);
+				$strings[$key]['pretty'] = trim($strings[$key]['pretty']);
 			}
+
+			// Convert string to lowercase
+			$strings[$key]['data'] = strtolower($strings[$key]['data']);
+
 		} unset($key); unset($value);
 			
 		return $strings;
